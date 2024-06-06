@@ -18,12 +18,10 @@ export default function Quiz({
     const [playSound] = useSound(play);
     const [correctSound] = useSound(correct);
     const [wrongSound] = useSound(wrong);
-    const [waitSound, { stop }] = useSound(wait);
 
     useEffect(() => {
         playSound();
-        waitSound();
-    }, [playSound, waitSound]);
+    }, [playSound]);
 
     useEffect(() => {
         setQuestion(data[questionNumber - 1]);
@@ -47,7 +45,6 @@ export default function Quiz({
                 setQuestionNumber((prev) => prev + 1);
                 setSelectedAnswer(null);
             } else {
-                stop();
                 setStop(true);
             }
         });

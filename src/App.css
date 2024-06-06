@@ -49,6 +49,7 @@
 .pyramid {
     width: 25%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     color: orange;
@@ -96,4 +97,8 @@
     left: 0;
     right: 0;
     margin: auto;
+}
+
+.username {
+    color: White;
 }

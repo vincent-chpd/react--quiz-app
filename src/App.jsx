@@ -3,8 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import Quiz from "./components/Quiz";
 import Timer from "./components/Timer";
 import data from "./Data";
+import Start from "./components/Start";
 
 function App() {
+    const [username, setUsername] = useState(null);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [stop, setStop] = useState(false);
     const [earned, setEarned] = useState("£ 0");
@@ -39,53 +41,66 @@ function App() {
             );
     }, [moneyPyramid, questionNumber]);
 
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     return (
         <div className="app">
-            <div className="main">
-                {stop ? (
-                    <h1 className="endText ">You earned: {earned}</h1>
-                ) : (
-                    <>
-                        <div className="top">
-                            <div className="timer">
-                                <Timer
-                                    setStop={setStop}
-                                    questionNumber={questionNumber}
-                                />
-                            </div>
-                        </div>
-                        <div className="bottom">
-                            <Quiz
-                                data={data}
-                                setStop={setStop}
-                                questionNumber={questionNumber}
-                                setQuestionNumber={setQuestionNumber}
-                            />
-                        </div>
-                    </>
-                )}
-            </div>
-            <div className="pyramid">
-                <ul className="moneyList">
-                    {moneyPyramid.map((item) => (
-                        <li
-                            key={item.id}
-                            className={
-                                questionNumber === item.id
-                                    ? "moneyListItem active"
-                                    : "moneyListItem"
-                            }
-                        >
-                            <span className="moneyListItemNumber">
-                                {item.id}
-                            </span>
-                            <span className="moneyListItemAmount">
-                                {item.amount}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            {username ? (
+                <>
+                    <div className="main">
+                        {stop ? (
+                            <h1 className="endText ">You earned: {earned}</h1>
+                        ) : (
+                            <>
+                                <div className="top">
+                                    <div className="timer">
+                                        <Timer
+                                            setStop={setStop}
+                                            questionNumber={questionNumber}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="bottom">
+                                    <Quiz
+                                        data={data}
+                                        setStop={setStop}
+                                        questionNumber={questionNumber}
+                                        setQuestionNumber={setQuestionNumber}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    <div className="pyramid">
+                        <h1 className="username">
+                            Player: {capitalize(username)}
+                        </h1>
+                        <ul className="moneyList">
+                            {moneyPyramid.map((item) => (
+                                <li
+                                    key={item.id}
+                                    className={
+                                        questionNumber === item.id
+                                            ? "moneyListItem active"
+                                            : "moneyListItem"
+                                    }
+                                >
+                                    <span className="moneyListItemNumber">
+                                        {item.id}
+                                    </span>
+                                    <span className="moneyListItemAmount">
+                                        {item.amount}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </>
+            ) : (
+                <Start setUsername={setUsername} />
+            )}
         </div>
     );
 }
